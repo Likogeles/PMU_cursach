@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Клиника \"Будьте больны\"</string>
+    <string name="addBtn">Добавить</string>
+    <string name="removeBtn">Удалить</string>
+    <string name="addPatientSurname">Фамилия</string>
+    <string name="addPatientName">Имя</string>
+    <string name="addPatientPatronymic">Отчество</string>
+    <string name="addPhoneNumber">Номер телефона</string>
+    <string name="dateOfBirth">Дата рождения</string>
+    <string name="editBtn">Изменить</string>
+    <string name="cancelBtn">Отмена</string>
+</resources>

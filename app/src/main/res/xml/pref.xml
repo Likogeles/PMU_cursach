@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ApiUrlPreference
+        android:key="api_url"
+        android:defaultValue="http://10.0.2.2"
+        android:summary="URL of backend"
+        android:title="api_url"
+    />
+    <ApiPortPreference
+        android:key="api_port"
+        android:defaultValue="5000"
+        android:summary="Port of backend"
+        android:title="api_port"
+    />
+</PreferenceScreen>
