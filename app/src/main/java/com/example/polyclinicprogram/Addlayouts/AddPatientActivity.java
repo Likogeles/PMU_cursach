@@ -100,11 +100,13 @@ public class AddPatientActivity extends AppCompatActivity {
             return false;
         }
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
         patient = new Patient(surname,
                 name,
                 patronymic,
                 phoneNumber,
-                Date.from(birthDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                birthDate.format(dateTimeFormatter));
 
         return true;
     }
