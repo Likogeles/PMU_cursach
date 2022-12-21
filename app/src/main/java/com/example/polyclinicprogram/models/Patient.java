@@ -1,12 +1,7 @@
 package com.example.polyclinicprogram.models;
 
-import android.content.Intent;
-
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Patient implements Serializable {
 
@@ -16,6 +11,7 @@ public class Patient implements Serializable {
     public String patronymic;
     public String phone_number;
     public String date_of_birth;
+    public ArrayList<Therapy> therapies;
 
     public Patient(String surname, String name, String patronymic,
                    String phone_number,

@@ -17,6 +17,7 @@ public class PatientsDBHelper extends SQLiteOpenHelper {
     public static final String KEY_PHONE_NUMBER = "phone_number";
     public static final String KEY_DATE_OF_BIRTH = "date_of_birth";
 
+
     public PatientsDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
