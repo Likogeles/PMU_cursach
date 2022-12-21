@@ -1,4 +1,4 @@
-package com.example.polyclinicprogram.databasehelpers;
+package com.example.polyclinicprogram.db_helpers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

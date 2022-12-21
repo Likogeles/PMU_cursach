@@ -1,13 +1,16 @@
 package com.example.polyclinicprogram.models;
 
+import android.content.Intent;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Patient implements Serializable {
 
-    int id;
+    public int id;
     public String surname;
     public String name;
     public String patronymic;
@@ -33,6 +36,18 @@ public class Patient implements Serializable {
         this.patronymic = patronymic;
         this.phone_number = phone_number;
         this.date_of_birth = date_of_birth;
+    }
+
+    public int getBirthDay(){
+        return Integer.parseInt(date_of_birth.substring(0,2));
+    }
+
+    public int getBirthMonth(){
+        return Integer.parseInt(date_of_birth.substring(3,5));
+    }
+
+    public int getBirthYear(){
+        return Integer.parseInt(date_of_birth.substring(6,10));
     }
 
     @Override

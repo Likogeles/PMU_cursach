@@ -13,6 +13,7 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +26,8 @@
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
-                android:text="@string/addBtn" />
+                android:text="@string/addBtn"
+                tools:ignore="ButtonStyle" />
 
             <Button
                 android:id="@+id/removeBtn"
@@ -34,32 +36,17 @@
                 android:layout_weight="1"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="10dp"
-                android:text="@string/removeBtn" />
+                android:text="@string/removeBtn"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <Button
-                android:id="@+id/saveBtn"
-                android:layout_width="wrap_content"
+                android:id="@+id/editBtn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
-                android:text="@string/saveBtn" />
-
-            <Button
-                android:id="@+id/readBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                android:text="@string/readBtn" />
-        </LinearLayout>
+                android:text="@string/editBtn"
+                tools:ignore="ButtonStyle" />
 
         <ListView
             android:id="@+id/listView"

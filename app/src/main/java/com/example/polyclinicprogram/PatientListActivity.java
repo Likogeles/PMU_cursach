@@ -20,12 +20,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.polyclinicprogram.Addlayouts.AddPatientActivity;
-import com.example.polyclinicprogram.databasehelpers.PatientsDBHelper;
+import com.example.polyclinicprogram.add_layouts.AddPatientActivity;
+import com.example.polyclinicprogram.db_helpers.PatientsDBHelper;
+import com.example.polyclinicprogram.db_services.PatientsDBService;
 import com.example.polyclinicprogram.models.Patient;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PatientListActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class PatientListActivity extends AppCompatActivity {
     ArrayAdapter<Patient> adapter;
     ListView listView;
 
-    PatientsDBHelper patientsDBHelper;
+    PatientsDBService patientsDBService;
 
     // Получение результата из страницы добавления пациента.
     ActivityResultLauncher<Intent> addActivityResultLauncher = registerForActivityResult(
@@ -46,7 +46,15 @@ public class PatientListActivity extends AppCompatActivity {
                         Intent intent = result.getData();
                         if(intent != null){
                             ArrayList<Patient> new_patient = (ArrayList<Patient>)intent.getSerializableExtra("patient");
-                            patientArrayList.add(new_patient.get(0));
+
+                            if(new_patient.get(0).id == 0) {
+                                patientArrayList.add(new_patient.get(0));
+                            }else{
+                                patientArrayList.set(new_patient.get(0).id - 1,(new_patient.get(0)));
+                            }
+
+                            patientsDBService.save(patientArrayList);
+                            patientsDBService.read(patientArrayList);
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -59,81 +67,40 @@ public class PatientListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_list);
 
-//        patientArrayList.add(new Patient("asd1", "asd", "asd1", "88005553535", "24.12.2022"));
-//        patientArrayList.add(new Patient("asd2", "asd", "asd2", "88005553535", "24.12.2022"));
-//        patientArrayList.add(new Patient("asd3", "asd", "asd3", "88005553535", "24.12.2022"));
-//        patientArrayList.add(new Patient("asd4", "asd", "asd4", "88005553535", "24.12.2022"));
-//        patientArrayList.add(new Patient("asd5", "asd", "asd5", "88005553535", "24.12.2022"));
-
         Button addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(this::addBtnClick);
 
         Button removeBtn = findViewById(R.id.removeBtn);
         removeBtn.setOnClickListener(this::removeBtnClick);
 
-        Button saveBtn = findViewById(R.id.saveBtn);
-        saveBtn.setOnClickListener(this::saveBtnClick);
+        Button editBtn = findViewById(R.id.editBtn);
+        editBtn.setOnClickListener(this::editBtnClick);
 
-        Button readBtn = findViewById(R.id.readBtn);
-        readBtn.setOnClickListener(this::readBtnClick);
-
+        patientsDBService = new PatientsDBService(this);
+        patientsDBService.read(patientArrayList);
         adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, patientArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        patientsDBHelper = new PatientsDBHelper(this);
     }
 
-    private void saveBtnClick(View view) {
-        SQLiteDatabase db = patientsDBHelper.getReadableDatabase();
-        db.delete(PatientsDBHelper.TABLE_PATIENTS, null, null);
+    private void editBtnClick(View view) {
 
+        SparseBooleanArray sbArray = listView.getCheckedItemPositions();
 
-        for (Patient patient : patientArrayList){
-            ContentValues contentValues = new ContentValues();
-
-            System.out.println(patient);
-            contentValues.put(PatientsDBHelper.KEY_SURNAME, patient.surname);
-            contentValues.put(PatientsDBHelper.KEY_NAME, patient.name);
-            contentValues.put(PatientsDBHelper.KEY_PATRONYMIC, patient.patronymic);
-            contentValues.put(PatientsDBHelper.KEY_PHONE_NUMBER, patient.phone_number);
-            contentValues.put(PatientsDBHelper.KEY_DATE_OF_BIRTH, patient.date_of_birth);
-
-            db.insert(PatientsDBHelper.TABLE_PATIENTS, null, contentValues);
-        }
-    }
-
-    private void readBtnClick(View view) {
-        SQLiteDatabase db = patientsDBHelper.getReadableDatabase();
-        Cursor cursor = db.query(PatientsDBHelper.TABLE_PATIENTS, null, null, null, null, null, null);
-
-        patientArrayList.clear();
-        if(cursor.moveToFirst()) {
-            int idIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_ID);
-            int surnameIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_SURNAME);
-            int nameIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_NAME);
-            int patronymicIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_PATRONYMIC);
-            int phoneNumberIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_PHONE_NUMBER);
-            int dateOfBirthIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_DATE_OF_BIRTH);
-
-            do {
-                patientArrayList.add(new Patient(
-                        cursor.getInt(idIndex),
-                        cursor.getString(surnameIndex),
-                        cursor.getString(nameIndex),
-                        cursor.getString(patronymicIndex),
-                        cursor.getString(phoneNumberIndex),
-                        cursor.getString(dateOfBirthIndex)
-                        )
-                );
-            } while (cursor.moveToNext());
-            adapter.notifyDataSetChanged();
+        if(sbArray.size() == 0){
+            return ;
         }
 
-        cursor.close();
-    }
+        Intent addPatientActivity = new Intent(this, AddPatientActivity.class);
 
+        ArrayList<Patient> singleArr = new ArrayList<>();
+        singleArr.add(patientArrayList.get(sbArray.keyAt(0)));
+        addPatientActivity.putExtra("patient", singleArr);
+
+        addActivityResultLauncher.launch(addPatientActivity);
+    }
 
     private void addBtnClick(View view) {
         Intent addPatientActivity = new Intent(this, AddPatientActivity.class);
@@ -161,6 +128,9 @@ public class PatientListActivity extends AppCompatActivity {
                 patientArrayList.remove(patientArrayList.get(index));
             }
         }
+        patientsDBService.save(patientArrayList);
+        patientsDBService.read(patientArrayList);
         adapter.notifyDataSetChanged();
+
     }
 }

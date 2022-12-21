@@ -1,4 +1,4 @@
-package com.example.polyclinicprogram.Addlayouts;
+package com.example.polyclinicprogram.add_layouts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,12 +17,9 @@ import com.example.polyclinicprogram.models.Patient;
 
 import android.app.DatePickerDialog.OnDateSetListener;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AddPatientActivity extends AppCompatActivity {
 
@@ -52,7 +49,6 @@ public class AddPatientActivity extends AppCompatActivity {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         textViewDateOfBirth.setText(birthDate.format(dateTimeFormatter));
 
-//        textViewDateOfBirth.setText(localDate);
 
         Button cancelBtn = findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(view -> finish());
@@ -64,6 +60,7 @@ public class AddPatientActivity extends AppCompatActivity {
                 ArrayList<Patient> singleArr = new ArrayList<>();
                 singleArr.add(patient);
                 intent.putExtra("patient", singleArr);
+
                 setResult(78, intent);
                 finish();
             }
@@ -72,6 +69,19 @@ public class AddPatientActivity extends AppCompatActivity {
         Button editDateBtn = findViewById(R.id.editDateBtn);
         editDateBtn.setOnClickListener(this::editDateClick);
 
+        Intent bundleIntent = getIntent();
+        ArrayList<Patient> arr = (ArrayList<Patient>) bundleIntent.getSerializableExtra("patient");
+        if (arr != null){
+            Patient editPatient = arr.get(0);
+            patient = editPatient;
+            editTextSurname.setText(editPatient.surname);
+            editTextName.setText(editPatient.name);
+            editTextPatronymic.setText(editPatient.patronymic);
+            editTextPhoneNumber.setText(editPatient.phone_number);
+            birthDate = LocalDate.of(editPatient.getBirthYear(), editPatient.getBirthMonth(), editPatient.getBirthDay());
+            textViewDateOfBirth.setText(birthDate.format(dateTimeFormatter));
+            addBtn.setText("Сохранить");
+        }
     }
 
     private void editDateClick(View view) {
@@ -102,11 +112,19 @@ public class AddPatientActivity extends AppCompatActivity {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        patient = new Patient(surname,
-                name,
-                patronymic,
-                phoneNumber,
-                birthDate.format(dateTimeFormatter));
+        if(patient == null) {
+            patient = new Patient(surname,
+                    name,
+                    patronymic,
+                    phoneNumber,
+                    birthDate.format(dateTimeFormatter));
+        }else{
+            patient.surname = surname;
+            patient.name = name;
+            patient.patronymic = patronymic;
+            patient.phone_number = phoneNumber;
+            patient.date_of_birth = birthDate.format(dateTimeFormatter);
+        }
 
         return true;
     }

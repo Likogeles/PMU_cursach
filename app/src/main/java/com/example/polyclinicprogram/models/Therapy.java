@@ -6,7 +6,6 @@ public class Therapy {
     public boolean important;
     public String scope_area;
 
-
     public Therapy(String name, boolean important, String scope_area) {
         this.name = name;
         this.important = important;
