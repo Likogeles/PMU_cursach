@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,67 +22,32 @@ import com.example.polyclinicprogram.models.Patient;
 import com.example.polyclinicprogram.models.Therapy;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-
-    PatientsTherapyDBService patientsTherapyDBService;
-    PatientsDBService patientsDBService;
-    TherapiesDBService therapiesDBService;
-
-    ArrayList<Patient> patients = new ArrayList<>();
-    ArrayList<Therapy> therapies = new ArrayList<>();
+    Executor executor = Executors.newSingleThreadExecutor();
+    Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        executor.execute(() -> {
+            handler.post(() -> {
+                Button patientsBtn = findViewById(R.id.patientsBtn);
+                patientsBtn.setOnClickListener(view -> {
+                    Intent patientListActivity = new Intent(this, PatientListActivity.class);
+                    startActivity(patientListActivity);
+                });
 
-        Button patientsBtn = findViewById(R.id.patientsBtn);
-        patientsBtn.setOnClickListener(view -> {
-            Intent patientListActivity = new Intent(this, PatientListActivity.class);
-            startActivity(patientListActivity);
+                Button therapiesBtn = findViewById(R.id.therapiesBtn);
+                therapiesBtn.setOnClickListener(view -> {
+                    Intent therapiesListActivity = new Intent(this, TherapiesListActivity.class);
+                    startActivity(therapiesListActivity);
+                });
+            });
         });
-
-        Button therapiesBtn = findViewById(R.id.therapiesBtn);
-        therapiesBtn.setOnClickListener(view -> {
-            Intent therapiesListActivity = new Intent(this, TherapiesListActivity.class);
-            startActivity(therapiesListActivity);
-        });
-
-//        patientsTherapyDBService = new PatientsTherapyDBService(this);
-//        patientsDBService = new PatientsDBService(this);
-//        therapiesDBService = new TherapiesDBService(this);
-//
-//        patientsDBService.readPatients(patients);
-//        therapiesDBService.readTherapies(therapies);
-
-//        Button addBtn = findViewById(R.id.addBtn);
-//        addBtn.setOnClickListener(view -> {
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(0), patients.get(0));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(0), patients.get(1));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(0), patients.get(2));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(1), patients.get(1));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(1), patients.get(2));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(2), patients.get(2));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(2), patients.get(2));
-//            patientsTherapyDBService.addTherapiesToPatient(therapies.get(2), patients.get(1));
-//        });
-//
-//        Button readBtn = findViewById(R.id.readBtn);
-//        readBtn.setOnClickListener(view -> {
-//            patientsTherapyDBService.therapiesByPatientId(patients.get(0).id);
-//            patientsTherapyDBService.therapiesByPatientId(patients.get(1).id);
-//            patientsTherapyDBService.therapiesByPatientId(patients.get(2).id);
-//            patientsTherapyDBService.therapiesByPatientId(patients.get(3).id);
-//        });
-    }
-
-    @Override
-    protected void onResume() {
-
-//        patientsDBService.readPatients(patients);
-//        therapiesDBService.readTherapies(therapies);
-        super.onResume();
     }
 }

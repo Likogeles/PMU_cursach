@@ -49,7 +49,6 @@ public class AddPatientActivity extends AppCompatActivity {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         textViewDateOfBirth.setText(birthDate.format(dateTimeFormatter));
 
-
         Button cancelBtn = findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(view -> finish());
 

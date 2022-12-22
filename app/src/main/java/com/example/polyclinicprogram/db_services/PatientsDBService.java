@@ -55,7 +55,6 @@ public class PatientsDBService {
             int dateOfBirthIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_DATE_OF_BIRTH);
 
             do {
-
                 ArrayList<Therapy> therapies = patientsTherapyDBService.therapiesByPatientId(cursor.getInt(idIndex));
                 patientArrayList.add(new Patient(
                         cursor.getInt(idIndex),
