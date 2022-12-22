@@ -5,51 +5,50 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.polyclinicprogram.db_helpers.PatientsDBHelper;
+import com.example.polyclinicprogram.db_helpers.DBHelper;
 import com.example.polyclinicprogram.models.Patient;
 
 import java.util.ArrayList;
 
 public class PatientsDBService {
 
-    PatientsDBHelper patientsDBHelper;
-
+    DBHelper DBHelper;
 
     public PatientsDBService(Context context) {
-        this.patientsDBHelper = new PatientsDBHelper(context);
+        this.DBHelper = new DBHelper(context);
     }
 
-    public void save(ArrayList<Patient> patientArrayList){
+    public void savePatients(ArrayList<Patient> patientArrayList){
 
-        SQLiteDatabase db = patientsDBHelper.getReadableDatabase();
-        db.delete(PatientsDBHelper.TABLE_PATIENTS, null, null);
+        SQLiteDatabase db = DBHelper.getReadableDatabase();
+        db.delete(DBHelper.TABLE_PATIENTS, null, null);
 
 
         for (Patient patient : patientArrayList){
             ContentValues contentValues = new ContentValues();
 
-            contentValues.put(PatientsDBHelper.KEY_SURNAME, patient.surname);
-            contentValues.put(PatientsDBHelper.KEY_NAME, patient.name);
-            contentValues.put(PatientsDBHelper.KEY_PATRONYMIC, patient.patronymic);
-            contentValues.put(PatientsDBHelper.KEY_PHONE_NUMBER, patient.phone_number);
-            contentValues.put(PatientsDBHelper.KEY_DATE_OF_BIRTH, patient.date_of_birth);
+            contentValues.put(DBHelper.PATIENTS_KEY_SURNAME, patient.surname);
+            contentValues.put(DBHelper.PATIENTS_KEY_NAME, patient.name);
+            contentValues.put(DBHelper.PATIENTS_KEY_PATRONYMIC, patient.patronymic);
+            contentValues.put(DBHelper.PATIENTS_KEY_PHONE_NUMBER, patient.phone_number);
+            contentValues.put(DBHelper.PATIENTS_KEY_DATE_OF_BIRTH, patient.date_of_birth);
 
-            db.insert(PatientsDBHelper.TABLE_PATIENTS, null, contentValues);
+            db.insert(DBHelper.TABLE_PATIENTS, null, contentValues);
         }
     }
 
-    public void read(ArrayList<Patient> patientArrayList){
-        SQLiteDatabase db = patientsDBHelper.getReadableDatabase();
-        Cursor cursor = db.query(PatientsDBHelper.TABLE_PATIENTS, null, null, null, null, null, null);
+    public void readPatients(ArrayList<Patient> patientArrayList){
+        SQLiteDatabase db = DBHelper.getReadableDatabase();
+        Cursor cursor = db.query(DBHelper.TABLE_PATIENTS, null, null, null, null, null, null);
 
         patientArrayList.clear();
         if(cursor.moveToFirst()) {
-            int idIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_ID);
-            int surnameIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_SURNAME);
-            int nameIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_NAME);
-            int patronymicIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_PATRONYMIC);
-            int phoneNumberIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_PHONE_NUMBER);
-            int dateOfBirthIndex = cursor.getColumnIndex(PatientsDBHelper.KEY_DATE_OF_BIRTH);
+            int idIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_ID);
+            int surnameIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_SURNAME);
+            int nameIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_NAME);
+            int patronymicIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_PATRONYMIC);
+            int phoneNumberIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_PHONE_NUMBER);
+            int dateOfBirthIndex = cursor.getColumnIndex(DBHelper.PATIENTS_KEY_DATE_OF_BIRTH);
 
             do {
                 patientArrayList.add(new Patient(

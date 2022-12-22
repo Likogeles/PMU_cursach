@@ -1,19 +1,13 @@
 package com.example.polyclinicprogram;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,7 +15,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.polyclinicprogram.add_layouts.AddPatientActivity;
-import com.example.polyclinicprogram.db_helpers.PatientsDBHelper;
 import com.example.polyclinicprogram.db_services.PatientsDBService;
 import com.example.polyclinicprogram.models.Patient;
 
@@ -52,8 +45,8 @@ public class PatientListActivity extends AppCompatActivity {
                                 patientArrayList.set(new_patient.get(0).id - 1,(new_patient.get(0)));
                             }
 
-                            patientsDBService.save(patientArrayList);
-                            patientsDBService.read(patientArrayList);
+                            patientsDBService.savePatients(patientArrayList);
+                            patientsDBService.readPatients(patientArrayList);
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -76,7 +69,7 @@ public class PatientListActivity extends AppCompatActivity {
         editBtn.setOnClickListener(this::editBtnClick);
 
         patientsDBService = new PatientsDBService(this);
-        patientsDBService.read(patientArrayList);
+        patientsDBService.readPatients(patientArrayList);
         adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, patientArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -127,8 +120,8 @@ public class PatientListActivity extends AppCompatActivity {
                 patientArrayList.remove(patientArrayList.get(index));
             }
         }
-        patientsDBService.save(patientArrayList);
-        patientsDBService.read(patientArrayList);
+        patientsDBService.savePatients(patientArrayList);
+        patientsDBService.readPatients(patientArrayList);
         adapter.notifyDataSetChanged();
 
     }

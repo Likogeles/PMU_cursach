@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.example.polyclinicprogram.add_layouts.AddPatientActivity;
 import com.example.polyclinicprogram.add_layouts.AddTherapyActivity;
 import com.example.polyclinicprogram.db_services.PatientsDBService;
+import com.example.polyclinicprogram.db_services.TherapiesDBService;
 import com.example.polyclinicprogram.models.Patient;
 import com.example.polyclinicprogram.models.Therapy;
 
@@ -30,6 +31,8 @@ public class TherapiesListActivity extends AppCompatActivity {
     ArrayList<Therapy> therapyArrayList = new ArrayList<>();
     ArrayAdapter<Therapy> adapter;
     ListView listView;
+
+    TherapiesDBService therapiesDBService;
 
     // Получение результата из страницы добавления пациента.
     ActivityResultLauncher<Intent> addActivityResultLauncher = registerForActivityResult(
@@ -48,8 +51,8 @@ public class TherapiesListActivity extends AppCompatActivity {
                                 therapyArrayList.set(new_therapy.get(0).id - 1,(new_therapy.get(0)));
                             }
 
-//                            patientsDBService.save(patientArrayList);
-//                            patientsDBService.read(patientArrayList);
+                            therapiesDBService.saveTherapies(therapyArrayList);
+                            therapiesDBService.readTherapies(therapyArrayList);
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -71,10 +74,13 @@ public class TherapiesListActivity extends AppCompatActivity {
         Button editBtn = findViewById(R.id.editBtn);
         editBtn.setOnClickListener(this::editBtnClick);
 
+        therapiesDBService = new TherapiesDBService(this);
+        therapiesDBService.readTherapies(therapyArrayList);
         adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, therapyArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
     }
 
     private void editBtnClick(View view) {
@@ -92,16 +98,12 @@ public class TherapiesListActivity extends AppCompatActivity {
         addTherapyActivity.putExtra("therapy", singleArr);
 
         addActivityResultLauncher.launch(addTherapyActivity);
-
     }
 
     private void addBtnClick(View view) {
 
         Intent addTherapyActivity = new Intent(this, AddTherapyActivity.class);
         addActivityResultLauncher.launch(addTherapyActivity);
-
-//        therapyArrayList.add(new Therapy("Named", false, "scope_Area"));
-//        adapter.notifyDataSetChanged();
     }
 
     private void removeBtnClick(View view) {
@@ -125,6 +127,8 @@ public class TherapiesListActivity extends AppCompatActivity {
                 therapyArrayList.remove(therapyArrayList.get(index));
             }
         }
+        therapiesDBService.saveTherapies(therapyArrayList);
+        therapiesDBService.readTherapies(therapyArrayList);
         adapter.notifyDataSetChanged();
     }
 
