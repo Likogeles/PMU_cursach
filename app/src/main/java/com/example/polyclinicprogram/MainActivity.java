@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(therapiesListActivity);
         });
 
+        Button proceduresBtn = findViewById(R.id.proceduresBtn);
+        proceduresBtn.setOnClickListener(view -> {
+            Intent proceduresListActivity = new Intent(this, ProceduresListActivity.class);
+            startActivity(proceduresListActivity);
+        });
+
         Button reportBtn = findViewById(R.id.reportBtn);
         reportBtn.setOnClickListener(view -> {
 

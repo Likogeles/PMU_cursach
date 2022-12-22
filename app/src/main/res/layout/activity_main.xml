@@ -37,6 +37,14 @@
             android:text="@string/therapies" />
 
         <Button
+            android:id="@+id/proceduresBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/procedures" />
+
+        <Button
             android:id="@+id/reportBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

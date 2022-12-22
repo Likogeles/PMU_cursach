@@ -26,4 +26,8 @@
     <string name="emailText">Почта</string>
     <string name="adminText">Администратор</string>
     <string name="report">Отчёт</string>
+    <string name="procedures">Процедуры</string>
+    <string name="addProcedureName">Название</string>
+    <string name="addProcedureDescription">Описание</string>
+    <string name="addProcedurePrice">Цена</string>
 </resources>
