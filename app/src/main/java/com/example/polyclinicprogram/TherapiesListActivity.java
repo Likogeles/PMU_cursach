@@ -8,10 +8,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -21,19 +18,18 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.polyclinicprogram.add_layouts.AddPatientActivity;
-import com.example.polyclinicprogram.db_helpers.PatientsDBHelper;
+import com.example.polyclinicprogram.add_layouts.AddTherapyActivity;
 import com.example.polyclinicprogram.db_services.PatientsDBService;
 import com.example.polyclinicprogram.models.Patient;
+import com.example.polyclinicprogram.models.Therapy;
 
 import java.util.ArrayList;
 
-public class PatientListActivity extends AppCompatActivity {
+public class TherapiesListActivity extends AppCompatActivity {
 
-    ArrayList<Patient> patientArrayList = new ArrayList<>();
-    ArrayAdapter<Patient> adapter;
+    ArrayList<Therapy> therapyArrayList = new ArrayList<>();
+    ArrayAdapter<Therapy> adapter;
     ListView listView;
-
-    PatientsDBService patientsDBService;
 
     // Получение результата из страницы добавления пациента.
     ActivityResultLauncher<Intent> addActivityResultLauncher = registerForActivityResult(
@@ -44,16 +40,16 @@ public class PatientListActivity extends AppCompatActivity {
                     if (result.getResultCode() == 78){
                         Intent intent = result.getData();
                         if(intent != null){
-                            ArrayList<Patient> new_patient = (ArrayList<Patient>)intent.getSerializableExtra("patient");
+                            ArrayList<Therapy> new_therapy = (ArrayList<Therapy>)intent.getSerializableExtra("therapy");
 
-                            if(new_patient.get(0).id == 0) {
-                                patientArrayList.add(new_patient.get(0));
+                            if(new_therapy.get(0).id == 0) {
+                                therapyArrayList.add(new_therapy.get(0));
                             }else{
-                                patientArrayList.set(new_patient.get(0).id - 1,(new_patient.get(0)));
+                                therapyArrayList.set(new_therapy.get(0).id - 1,(new_therapy.get(0)));
                             }
 
-                            patientsDBService.save(patientArrayList);
-                            patientsDBService.read(patientArrayList);
+//                            patientsDBService.save(patientArrayList);
+//                            patientsDBService.read(patientArrayList);
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -64,7 +60,7 @@ public class PatientListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_list);
+        setContentView(R.layout.activity_therapies_list);
 
         Button addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(this::addBtnClick);
@@ -75,13 +71,10 @@ public class PatientListActivity extends AppCompatActivity {
         Button editBtn = findViewById(R.id.editBtn);
         editBtn.setOnClickListener(this::editBtnClick);
 
-        patientsDBService = new PatientsDBService(this);
-        patientsDBService.read(patientArrayList);
-        adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, patientArrayList);
+        adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, therapyArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
     }
 
     private void editBtnClick(View view) {
@@ -92,18 +85,23 @@ public class PatientListActivity extends AppCompatActivity {
             return ;
         }
 
-        Intent addPatientActivity = new Intent(this, AddPatientActivity.class);
+        Intent addTherapyActivity = new Intent(this, AddTherapyActivity.class);
 
-        ArrayList<Patient> singleArr = new ArrayList<>();
-        singleArr.add(patientArrayList.get(sbArray.keyAt(0)));
-        addPatientActivity.putExtra("patient", singleArr);
+        ArrayList<Therapy> singleArr = new ArrayList<>();
+        singleArr.add(therapyArrayList.get(sbArray.keyAt(0)));
+        addTherapyActivity.putExtra("therapy", singleArr);
 
-        addActivityResultLauncher.launch(addPatientActivity);
+        addActivityResultLauncher.launch(addTherapyActivity);
+
     }
 
     private void addBtnClick(View view) {
-        Intent addPatientActivity = new Intent(this, AddPatientActivity.class);
-        addActivityResultLauncher.launch(addPatientActivity);
+
+        Intent addTherapyActivity = new Intent(this, AddTherapyActivity.class);
+        addActivityResultLauncher.launch(addTherapyActivity);
+
+//        therapyArrayList.add(new Therapy("Named", false, "scope_Area"));
+//        adapter.notifyDataSetChanged();
     }
 
     private void removeBtnClick(View view) {
@@ -123,13 +121,11 @@ public class PatientListActivity extends AppCompatActivity {
 
         for (int i = toRemoveList.size() - 1; i > -1; i--) {
             Integer index = toRemoveList.get(i);
-            if (index < patientArrayList.size()) {
-                patientArrayList.remove(patientArrayList.get(index));
+            if (index < therapyArrayList.size()) {
+                therapyArrayList.remove(therapyArrayList.get(index));
             }
         }
-        patientsDBService.save(patientArrayList);
-        patientsDBService.read(patientArrayList);
         adapter.notifyDataSetChanged();
-
     }
+
 }

@@ -1,7 +1,9 @@
 package com.example.polyclinicprogram.models;
 
-public class Therapy {
-    int id;
+import java.io.Serializable;
+
+public class Therapy implements Serializable {
+    public int id;
     public String name;
     public boolean important;
     public String scope_area;
@@ -22,9 +24,13 @@ public class Therapy {
 
     @Override
     public String toString() {
+        String importantStr = "Не срочно";
+        if (important){
+            importantStr = "Срочно";
+        }
         return "ID: " + id + "\n" +
                 "Название: " + name  + "\n" +
-                "Срочность: " + important + "\n" +
+                "Важность: " + importantStr + "\n" +
                 "Область действия: " + scope_area + "\n";
     }
 }

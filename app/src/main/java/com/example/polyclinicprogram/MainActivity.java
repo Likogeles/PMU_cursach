@@ -25,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent patientListActivity = new Intent(this, PatientListActivity.class);
-        startActivity(patientListActivity);
+//        Intent patientListActivity = new Intent(this, PatientListActivity.class);
+//        startActivity(patientListActivity);
+
+        Intent therapiesListActivity = new Intent(this, TherapiesListActivity.class);
+        startActivity(therapiesListActivity);
 
 //        textView = findViewById(R.id.label);
 //        textView.setText("123");

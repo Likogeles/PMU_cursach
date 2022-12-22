@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add_layouts.AddTherapyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/addTherapyName"/>
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewImportant_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addTherapyImportant"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchCompatImportant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewImportant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Не срочно"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText"
+            android:layout_marginBottom="20dp"
+            />
+
+        <TextView
+            android:id="@+id/textViewScopeArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/addTherapyScopeArea"/>
+
+        <EditText
+            android:id="@+id/editScopeArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/cancelBtn" />
+
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/addBtn"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
