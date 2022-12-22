@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.polyclinicprogram.db_services.PatientsDBService;
 import com.example.polyclinicprogram.models.Patient;
@@ -27,8 +28,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-    Executor executor = Executors.newSingleThreadExecutor();
-    Handler handler = new Handler(Looper.getMainLooper());
     User user;
 
     @Override
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             PatientsDBService patientsDBService = new PatientsDBService(this);
             patientsDBService.readPatients(patientArrayList);
             try {
-                createPDF(patientArrayList, "Name");
+                createPDF(patientArrayList, "PolyclinicBeIll");
             }catch (Exception ex){
                 System.out.println(ex);
             }
@@ -79,13 +78,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createPDF(ArrayList<Patient> patientArrayList, String name) throws IOException, DocumentException {
-        System.out.println("Worked!!!");
-        Document document = new Document();  // create the document
+        Document document = new Document();
         File root = new File(Environment.getExternalStorageDirectory(), "Notes");
         if (!root.exists()) {
-            root.mkdirs();   // create root directory in sdcard
+            root.mkdirs();
         }
-        File file = new File("/storage/emulated/0/Download/PDF/" + name + ".pdf");
+        File file = new File("/storage/emulated/0/Download/" + name + ".pdf");
 
         PdfWriter.getInstance(document,new FileOutputStream(file));
         document.open();  // open the directory
@@ -115,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
         document.addCreationDate();
         document.close();
-    }
 
+        Toast.makeText(this, "Файл сохранён в загрузки", Toast.LENGTH_SHORT).show();
+    }
 }
