@@ -80,11 +80,45 @@ public class Patient implements Serializable {
             proceduresStr.deleteCharAt(proceduresStr.length()-1);
         }
 
-        return "- ID: " + id + "\n" +
-                "- ФИО: " + surname + " " + name + " " + patronymic + " " + "\n" +
-                "- Телефон: " + number + "\n" +
-                "- Дата рождения: " + date_of_birth + "\n" +
+        return "ID: " + id + "\n" +
+                "ФИО: " + surname + " " + name + " " + patronymic + " " + "\n" +
+                "Телефон: " + number + "\n" +
+                "Дата рождения: " + date_of_birth + "\n" +
                 "- Лекарства:\n" + therapiesStr + "\n" +
                 "- Процедуры:\n" + proceduresStr;
+    }
+    public String toPDFString(){
+        String number = phone_number.substring(0,1) + "-";
+        number += phone_number.substring(1,4) + "-";
+        number += phone_number.substring(4,7) + "-";
+        number += phone_number.substring(7,9) + "-";
+        number += phone_number.substring(9,11);
+
+        StringBuilder therapiesStr = new StringBuilder();
+        for (Therapy therapy : therapies){
+            therapiesStr.append(therapy.name).append("\n");
+        }
+        if(therapiesStr.length() == 0){
+            therapiesStr.append("Нет лекарств");
+        }else{
+            therapiesStr.deleteCharAt(therapiesStr.length()-1);
+        }
+
+        StringBuilder proceduresStr = new StringBuilder();
+        for (Procedure procedure : procedures){
+            proceduresStr.append(procedure.name).append("\n");
+        }
+        if(proceduresStr.length() == 0){
+            proceduresStr.append("Нет процедур");
+        }else{
+            proceduresStr.deleteCharAt(proceduresStr.length()-1);
+        }
+
+        return "ID: " + id + "\n" +
+                "ФИО: " + surname + " " + name + " " + patronymic + " " + "\n" +
+                "Телефон: " + number + "\n" +
+                "Дата рождения: " + date_of_birth + "\n" +
+                "- Лекарства:\n" + therapiesStr + "\n" +
+                "- Процедуры:\n" + proceduresStr + "\n\n";
     }
 }

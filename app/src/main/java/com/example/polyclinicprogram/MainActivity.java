@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             user = arr.get(0);
             if (!user.admin){
                 therapiesBtn.setEnabled(false);
+                proceduresBtn.setEnabled(false);
             }
         }
     }
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             Paragraph p1 = new Paragraph();
             p1.setFont(font);
 
-            p1.add(patient.toString());
+            p1.add(patient.toPDFString());
 
             paragraphs.add(p1);
         }

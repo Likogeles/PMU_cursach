@@ -12,7 +12,7 @@
     <string name="saveBtn">Сохранить</string>
     <string name="readBtn">Прочитать</string>
     <string name="patients">Пациенты</string>
-    <string name="therapies">Лечения</string>
+    <string name="therapies">Лекарства</string>
     <string name="addTherapyName">Название</string>
     <string name="addTherapyImportant">Срочность</string>
     <string name="addTherapyScopeArea">Область действия</string>
