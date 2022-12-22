@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(therapiesListActivity);
         });
 
-        patientsTherapyDBService = new PatientsTherapyDBService(this);
-        patientsDBService = new PatientsDBService(this);
-        therapiesDBService = new TherapiesDBService(this);
-
-        patientsDBService.readPatients(patients);
-        therapiesDBService.readTherapies(therapies);
+//        patientsTherapyDBService = new PatientsTherapyDBService(this);
+//        patientsDBService = new PatientsDBService(this);
+//        therapiesDBService = new TherapiesDBService(this);
+//
+//        patientsDBService.readPatients(patients);
+//        therapiesDBService.readTherapies(therapies);
 
 //        Button addBtn = findViewById(R.id.addBtn);
 //        addBtn.setOnClickListener(view -> {
@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
 
-        patientsDBService.readPatients(patients);
-        therapiesDBService.readTherapies(therapies);
+//        patientsDBService.readPatients(patients);
+//        therapiesDBService.readTherapies(therapies);
         super.onResume();
     }
 }

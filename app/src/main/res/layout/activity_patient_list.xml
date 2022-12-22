@@ -56,6 +56,15 @@
                 android:text="@string/editBtn"
                 tools:ignore="ButtonStyle" />
 
+        <Button
+            android:id="@+id/addTherapyBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/editTherapiesBtn"
+            tools:ignore="ButtonStyle" />
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"

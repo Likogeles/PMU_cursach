@@ -68,13 +68,30 @@ public class PatientListActivity extends AppCompatActivity {
         Button editBtn = findViewById(R.id.editBtn);
         editBtn.setOnClickListener(this::editBtnClick);
 
+        Button addTherapyBtn = findViewById(R.id.addTherapyBtn);
+        addTherapyBtn.setOnClickListener(this::addTherapyBtnClick);
+
         patientsDBService = new PatientsDBService(this);
         patientsDBService.readPatients(patientArrayList);
         adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, patientArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
 
+    private void addTherapyBtnClick(View view) {
+        SparseBooleanArray sbArray = listView.getCheckedItemPositions();
+
+        if(sbArray.size() == 0){
+            return ;
+        }
+
+        Intent addTherapyToPatientActivity = new Intent(this, AddTherapyToPatientActivity.class);
+        ArrayList<Patient> singleArr = new ArrayList<>();
+        singleArr.add(patientArrayList.get(sbArray.keyAt(0)));
+        addTherapyToPatientActivity.putExtra("patient", singleArr);
+
+        startActivity(addTherapyToPatientActivity);
     }
 
     private void editBtnClick(View view) {
@@ -124,5 +141,12 @@ public class PatientListActivity extends AppCompatActivity {
         patientsDBService.readPatients(patientArrayList);
         adapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    protected void onResume() {
+        patientsDBService.readPatients(patientArrayList);
+        adapter.notifyDataSetChanged();
+        super.onResume();
     }
 }

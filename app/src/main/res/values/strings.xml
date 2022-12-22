@@ -16,4 +16,5 @@
     <string name="addTherapyName">Название</string>
     <string name="addTherapyImportant">Срочность</string>
     <string name="addTherapyScopeArea">Область действия</string>
+    <string name="editTherapiesBtn">Изменить лечения</string>
 </resources>
