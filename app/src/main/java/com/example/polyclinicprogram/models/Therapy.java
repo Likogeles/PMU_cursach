@@ -31,6 +31,6 @@ public class Therapy implements Serializable {
         return "ID: " + id + "\n" +
                 "Название: " + name  + "\n" +
                 "Важность: " + importantStr + "\n" +
-                "Область действия: " + scope_area + "\n";
+                "Область действия: " + scope_area;
     }
 }

@@ -23,6 +23,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String THERAPIES_KEY_IMPORTANT = "important";
     public static final String THERAPIES_KEY_SCOPE_AREA = "scope_area";
 
+    public static final String TABLE_PATIENTS_THERAPIES = "patients_therapies";
+    public static final String PATIENTS_THERAPIES_KEY_ID = "_id";
+    public static final String PATIENTS_THERAPIES_KEY_PATIENT_ID = "patient_id";
+    public static final String PATIENTS_THERAPIES_KEY_THERAPY_ID = "therapy_id";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,12 +48,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 THERAPIES_KEY_NAME + " text," +
                 THERAPIES_KEY_IMPORTANT + " integer," +
                 THERAPIES_KEY_SCOPE_AREA + " text" + ")");
+
+        System.out.println("Создаём таблицу");
+        db.execSQL("create table " + TABLE_PATIENTS_THERAPIES + "(" +
+                PATIENTS_THERAPIES_KEY_PATIENT_ID + " integer references " + TABLE_PATIENTS +"(" + PATIENTS_KEY_ID + ")," +
+                PATIENTS_THERAPIES_KEY_THERAPY_ID + " integer references " + TABLE_THERAPIES +"(" + THERAPIES_KEY_ID + ")," +
+                " constraint " + PATIENTS_THERAPIES_KEY_ID + " primary key (" + PATIENTS_THERAPIES_KEY_PATIENT_ID + "," + PATIENTS_THERAPIES_KEY_THERAPY_ID + "))");
+        System.out.println("Создано");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("drop table if exists " + TABLE_PATIENTS);
         db.execSQL("drop table if exists " + TABLE_THERAPIES);
+        db.execSQL("drop table if exists " + TABLE_PATIENTS_THERAPIES);
         onCreate(db);
     }
 }

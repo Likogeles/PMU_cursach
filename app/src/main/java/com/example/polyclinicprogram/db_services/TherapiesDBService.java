@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.polyclinicprogram.db_helpers.DBHelper;
-import com.example.polyclinicprogram.models.Patient;
 import com.example.polyclinicprogram.models.Therapy;
 
 import java.util.ArrayList;
