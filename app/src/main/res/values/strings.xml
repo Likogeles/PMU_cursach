@@ -16,7 +16,7 @@
     <string name="addTherapyName">Название</string>
     <string name="addTherapyImportant">Срочность</string>
     <string name="addTherapyScopeArea">Область действия</string>
-    <string name="editTherapiesBtn">Изменить лечения</string>
+    <string name="editTherapiesBtn">Изменить лекарства</string>
     <string name="policlynicName">Клиника \"Будьте больны\"</string>
     <string name="tapToLoad">Нажмите чтобы продолжить</string>
     <string name="loginBtn">Войти</string>
@@ -30,4 +30,5 @@
     <string name="addProcedureName">Название</string>
     <string name="addProcedureDescription">Описание</string>
     <string name="addProcedurePrice">Цена</string>
+    <string name="editProcedureBtn">Изменить процедуры</string>
 </resources>

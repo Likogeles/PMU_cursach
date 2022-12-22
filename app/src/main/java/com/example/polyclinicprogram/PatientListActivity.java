@@ -71,12 +71,29 @@ public class PatientListActivity extends AppCompatActivity {
         Button addTherapyBtn = findViewById(R.id.addTherapyBtn);
         addTherapyBtn.setOnClickListener(this::addTherapyBtnClick);
 
+        Button addProcedureBtn = findViewById(R.id.addProcedureBtn);
+        addProcedureBtn.setOnClickListener(this::addProcedureBtnClick);
+
         patientsDBService = new PatientsDBService(this);
         patientsDBService.readPatients(patientArrayList);
         adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, patientArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
+
+    private void addProcedureBtnClick(View view) {
+        SparseBooleanArray sbArray = listView.getCheckedItemPositions();
+
+        if(sbArray.size() == 0){
+            return ;
+        }
+
+        Intent addProcedureToPatientActivity = new Intent(this, AddProcedureToPatientActivity.class);
+        ArrayList<Patient> singleArr = new ArrayList<>();
+        singleArr.add(patientArrayList.get(sbArray.keyAt(0)));
+        addProcedureToPatientActivity.putExtra("patient", singleArr);
+        startActivity(addProcedureToPatientActivity);
     }
 
     private void addTherapyBtnClick(View view) {

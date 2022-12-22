@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.polyclinicprogram.db_helpers.DBHelper;
 import com.example.polyclinicprogram.models.Patient;
+import com.example.polyclinicprogram.models.Procedure;
 import com.example.polyclinicprogram.models.Therapy;
 
 import java.util.ArrayList;
@@ -15,10 +16,12 @@ public class PatientsDBService {
 
     DBHelper DBHelper;
     PatientsTherapyDBService patientsTherapyDBService;
+    PatientsProceduresDBService patientsProceduresDBService;
 
     public PatientsDBService(Context context) {
         this.DBHelper = new DBHelper(context);
         patientsTherapyDBService = new PatientsTherapyDBService(context);
+        patientsProceduresDBService = new PatientsProceduresDBService(context);
     }
 
     public void savePatients(ArrayList<Patient> patientArrayList){
@@ -56,6 +59,7 @@ public class PatientsDBService {
 
             do {
                 ArrayList<Therapy> therapies = patientsTherapyDBService.therapiesByPatientId(cursor.getInt(idIndex));
+                ArrayList<Procedure> procedures = patientsProceduresDBService.proceduresByPatientId(cursor.getInt(idIndex));
                 patientArrayList.add(new Patient(
                         cursor.getInt(idIndex),
                         cursor.getString(surnameIndex),
@@ -63,7 +67,8 @@ public class PatientsDBService {
                         cursor.getString(patronymicIndex),
                         cursor.getString(phoneNumberIndex),
                         cursor.getString(dateOfBirthIndex),
-                        therapies
+                        therapies,
+                        procedures
                 ));
             } while (cursor.moveToNext());
         }

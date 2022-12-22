@@ -41,6 +41,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String USERS_KEY_EMAIL = "email";
     public static final String USERS_KEY_ADMIN = "admin";
 
+    public static final String TABLE_PATIENTS_PROCEDURES = "patients_procedures";
+    public static final String PATIENTS_PROCEDURES_KEY_ID = "_id";
+    public static final String PATIENTS_PROCEDURES_KEY_PATIENT_ID = "patient_id";
+    public static final String PATIENTS_PROCEDURES_KEY_PROCEDURE_ID = "procedure_id";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -75,6 +80,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 PROCEDURES_KEY_DESCRIPTION + " text," +
                 PROCEDURES_KEY_PRICE + " integer" + ")");
 
+        db.execSQL("create table " + TABLE_PATIENTS_PROCEDURES + "(" +
+                PATIENTS_PROCEDURES_KEY_PATIENT_ID + " integer references " + TABLE_PATIENTS +"(" + PATIENTS_KEY_ID + ")," +
+                PATIENTS_PROCEDURES_KEY_PROCEDURE_ID + " integer references " + TABLE_PROCEDURES +"(" + PROCEDURES_KEY_ID + ")," +
+                " constraint " + PATIENTS_PROCEDURES_KEY_ID + " primary key (" + PATIENTS_PROCEDURES_KEY_PATIENT_ID + "," + PATIENTS_PROCEDURES_KEY_PROCEDURE_ID + "))");
+
         db.execSQL("create table " + TABLE_USERS + "(" +
                 USERS_KEY_ID + " integer primary key,"+
                 USERS_KEY_LOGIN + " text," +
@@ -90,6 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + TABLE_PATIENTS_THERAPIES);
         db.execSQL("drop table if exists " + TABLE_PROCEDURES);
         db.execSQL("drop table if exists " + TABLE_USERS);
+        db.execSQL("drop table if exists " + TABLE_PATIENTS_PROCEDURES);
         onCreate(db);
     }
 }
