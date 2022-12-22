@@ -25,4 +25,5 @@
     <string name="passwordText">Пароль</string>
     <string name="emailText">Почта</string>
     <string name="adminText">Администратор</string>
+    <string name="report">Отчёт</string>
 </resources>
