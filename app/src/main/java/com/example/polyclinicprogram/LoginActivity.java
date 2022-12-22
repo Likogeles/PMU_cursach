@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.polyclinicprogram.add_layouts.AddPatientActivity;
 import com.example.polyclinicprogram.add_layouts.RegistrationActivity;
 import com.example.polyclinicprogram.db_services.UsersDBService;
+import com.example.polyclinicprogram.models.Patient;
 import com.example.polyclinicprogram.models.User;
 
 import java.util.ArrayList;
@@ -47,8 +48,16 @@ public class LoginActivity extends AppCompatActivity {
     private void loginBtnClick(View view) {
         ArrayList<User> users = new ArrayList<>();
         usersDBService.getUsers(users);
-        if(checkLoginAndPassword(String.valueOf(editLogin.getText()), String.valueOf(editPassword.getText()), users)){
+        User user = checkLoginAndPassword(String.valueOf(editLogin.getText()), String.valueOf(editPassword.getText()), users);
+        if(user != null){
+
+
             Intent mainActivity = new Intent(this, MainActivity.class);
+
+            ArrayList<User> singleArr = new ArrayList<>();
+            singleArr.add(user);
+            mainActivity.putExtra("user", singleArr);
+
             startActivity(mainActivity);
             editLogin.setText("");
             editPassword.setText("");
@@ -57,13 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkLoginAndPassword(String login, String password, ArrayList<User> users){
+    private User checkLoginAndPassword(String login, String password, ArrayList<User> users){
         for (User user : users){
             if (Objects.equals(login, user.login) && Objects.equals(password, user.password)){
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
     }
 
 }

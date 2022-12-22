@@ -20,7 +20,9 @@ import com.example.polyclinicprogram.db_services.PatientsTherapyDBService;
 import com.example.polyclinicprogram.db_services.TherapiesDBService;
 import com.example.polyclinicprogram.models.Patient;
 import com.example.polyclinicprogram.models.Therapy;
+import com.example.polyclinicprogram.models.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -28,26 +30,33 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
     Executor executor = Executors.newSingleThreadExecutor();
     Handler handler = new Handler(Looper.getMainLooper());
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        executor.execute(() -> {
-            handler.post(() -> {
-                Button patientsBtn = findViewById(R.id.patientsBtn);
-                patientsBtn.setOnClickListener(view -> {
-                    Intent patientListActivity = new Intent(this, PatientListActivity.class);
-                    startActivity(patientListActivity);
-                });
 
-                Button therapiesBtn = findViewById(R.id.therapiesBtn);
-                therapiesBtn.setOnClickListener(view -> {
-                    Intent therapiesListActivity = new Intent(this, TherapiesListActivity.class);
-                    startActivity(therapiesListActivity);
-                });
-            });
+        Button patientsBtn = findViewById(R.id.patientsBtn);
+        patientsBtn.setOnClickListener(view -> {
+            Intent patientListActivity = new Intent(this, PatientListActivity.class);
+            startActivity(patientListActivity);
         });
+
+        Button therapiesBtn = findViewById(R.id.therapiesBtn);
+        therapiesBtn.setOnClickListener(view -> {
+            Intent therapiesListActivity = new Intent(this, TherapiesListActivity.class);
+            startActivity(therapiesListActivity);
+        });
+
+        Intent bundleIntent = getIntent();
+        ArrayList<User> arr = (ArrayList<User>) bundleIntent.getSerializableExtra("user");
+        if (arr != null){
+            user = arr.get(0);
+            if (!user.admin){
+                therapiesBtn.setEnabled(false);
+            }
+        }
     }
 }
