@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".add_layouts.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,6 @@
         android:orientation="vertical"
         android:layout_margin="30dp"
         android:gravity="center">
-
 
         <TextView
             android:id="@+id/textViewLogin"
@@ -40,11 +39,52 @@
             android:ems="10"
             android:inputType="textPersonName"/>
 
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/emailText"/>
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textViewAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:text="@string/adminText"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchCompatAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"/>
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/cancelBtn" />
 
             <Button
                 android:id="@+id/registrationBtn"
@@ -54,15 +94,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="10dp"
                 android:text="@string/registrationBtn"/>
-
-            <Button
-                android:id="@+id/loginBtn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:text="@string/loginBtn" />
 
         </LinearLayout>
     </LinearLayout>

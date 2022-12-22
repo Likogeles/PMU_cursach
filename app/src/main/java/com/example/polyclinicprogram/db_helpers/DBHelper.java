@@ -28,6 +28,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PATIENTS_THERAPIES_KEY_PATIENT_ID = "patient_id";
     public static final String PATIENTS_THERAPIES_KEY_THERAPY_ID = "therapy_id";
 
+    public static final String TABLE_USERS = "users";
+    public static final String USERS_KEY_ID = "_id";
+    public static final String USERS_KEY_LOGIN = "login";
+    public static final String USERS_KEY_PASSWORD = "password";
+    public static final String USERS_KEY_EMAIL = "email";
+    public static final String USERS_KEY_ADMIN = "admin";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -49,12 +56,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 THERAPIES_KEY_IMPORTANT + " integer," +
                 THERAPIES_KEY_SCOPE_AREA + " text" + ")");
 
-        System.out.println("Создаём таблицу");
         db.execSQL("create table " + TABLE_PATIENTS_THERAPIES + "(" +
                 PATIENTS_THERAPIES_KEY_PATIENT_ID + " integer references " + TABLE_PATIENTS +"(" + PATIENTS_KEY_ID + ")," +
                 PATIENTS_THERAPIES_KEY_THERAPY_ID + " integer references " + TABLE_THERAPIES +"(" + THERAPIES_KEY_ID + ")," +
                 " constraint " + PATIENTS_THERAPIES_KEY_ID + " primary key (" + PATIENTS_THERAPIES_KEY_PATIENT_ID + "," + PATIENTS_THERAPIES_KEY_THERAPY_ID + "))");
-        System.out.println("Создано");
+
+        db.execSQL("create table " + TABLE_USERS + "(" +
+                USERS_KEY_ID + " integer primary key,"+
+                USERS_KEY_LOGIN + " text," +
+                USERS_KEY_PASSWORD + " text," +
+                USERS_KEY_EMAIL + " text," +
+                USERS_KEY_ADMIN + " integer" + ")");
     }
 
     @Override
@@ -62,6 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + TABLE_PATIENTS);
         db.execSQL("drop table if exists " + TABLE_THERAPIES);
         db.execSQL("drop table if exists " + TABLE_PATIENTS_THERAPIES);
+        db.execSQL("drop table if exists " + TABLE_USERS);
         onCreate(db);
     }
 }

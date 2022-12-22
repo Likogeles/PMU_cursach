@@ -19,4 +19,10 @@
     <string name="editTherapiesBtn">Изменить лечения</string>
     <string name="policlynicName">Клиника \"Будьте больны\"</string>
     <string name="tapToLoad">Нажмите чтобы продолжить</string>
+    <string name="loginBtn">Войти</string>
+    <string name="registrationBtn">Регистрация</string>
+    <string name="loginText">Логин</string>
+    <string name="passwordText">Пароль</string>
+    <string name="emailText">Почта</string>
+    <string name="adminText">Администратор</string>
 </resources>

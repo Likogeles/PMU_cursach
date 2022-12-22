@@ -27,7 +27,6 @@ public class AddTherapyActivity extends AppCompatActivity {
 
     TextView textViewImportant;
 
-
     Therapy therapy;
 
     @Override
