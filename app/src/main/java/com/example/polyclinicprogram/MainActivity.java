@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.polyclinicprogram.db_services.PatientsDBService;
 import com.example.polyclinicprogram.models.Patient;
 import com.example.polyclinicprogram.models.User;
+import com.example.polyclinicprogram.reports.PatientsReport;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
             PatientsDBService patientsDBService = new PatientsDBService(this);
             patientsDBService.readPatients(patientArrayList);
             try {
-                createPDF(patientArrayList, "PolyclinicBeIll");
+                PatientsReport patientsReport = new PatientsReport("PolyclinicBeIll");
+                patientsReport.createPDF(this, patientArrayList);
             }catch (Exception ex){
                 System.out.println(ex);
             }
@@ -77,43 +79,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void createPDF(ArrayList<Patient> patientArrayList, String name) throws IOException, DocumentException {
-        Document document = new Document();
-        File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-        if (!root.exists()) {
-            root.mkdirs();
-        }
-        File file = new File("/storage/emulated/0/Download/" + name + ".pdf");
 
-        PdfWriter.getInstance(document,new FileOutputStream(file));
-        document.open();  // open the directory
-
-        java.util.List<Paragraph> paragraphs = new ArrayList<>();
-        final String FONT = "/assets/arial.ttf";
-
-        BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font font = new Font(bf, 14, Font.NORMAL);
-
-        for(Patient patient:patientArrayList){
-            Paragraph p1 = new Paragraph();
-            p1.setFont(font);
-
-            p1.add(patient.toPDFString());
-
-            paragraphs.add(p1);
-        }
-        Paragraph p2 = new Paragraph();
-        p2.setFont(font);
-        p2.setAlignment(Paragraph.ALIGN_CENTER);
-        p2.add("Пациенты:");
-        document.add(p2);
-
-        for(Paragraph paragraph:paragraphs){
-            document.add(paragraph);
-        }
-        document.addCreationDate();
-        document.close();
-
-        Toast.makeText(this, "Файл сохранён в загрузки", Toast.LENGTH_SHORT).show();
-    }
 }
