@@ -11,6 +11,7 @@ import com.example.polyclinicprogram.models.Procedure;
 import com.example.polyclinicprogram.models.Therapy;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class PatientsDBService {
 
@@ -25,10 +26,8 @@ public class PatientsDBService {
     }
 
     public void savePatients(ArrayList<Patient> patientArrayList){
-
         SQLiteDatabase db = DBHelper.getReadableDatabase();
         db.delete(DBHelper.TABLE_PATIENTS, null, null);
-
 
         for (Patient patient : patientArrayList){
             ContentValues contentValues = new ContentValues();
@@ -44,6 +43,19 @@ public class PatientsDBService {
     }
 
     public void readPatients(ArrayList<Patient> patientArrayList){
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        }catch (Exception ignored){
+
+        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        System.out.println("Reading...");
+
         SQLiteDatabase db = DBHelper.getReadableDatabase();
         Cursor cursor = db.query(DBHelper.TABLE_PATIENTS, null, null, null, null, null, null);
 

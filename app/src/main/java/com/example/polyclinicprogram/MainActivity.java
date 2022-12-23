@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 PatientsReport patientsReport = new PatientsReport("PolyclinicBeIll");
                 patientsReport.createPDF(this, patientArrayList);
             }catch (Exception ex){
-                System.out.println(ex);
+                Toast.makeText(this, "Ошибка", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -6,8 +6,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,6 +22,8 @@ import com.example.polyclinicprogram.db_services.PatientsDBService;
 import com.example.polyclinicprogram.models.Patient;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class PatientListActivity extends AppCompatActivity {
 
@@ -45,15 +50,18 @@ public class PatientListActivity extends AppCompatActivity {
                                 patientArrayList.set(new_patient.get(0).id - 1,(new_patient.get(0)));
                             }
 
-                            patientsDBService.savePatients(patientArrayList);
-                            patientsDBService.readPatients(patientArrayList);
-                            adapter.notifyDataSetChanged();
+                            saveThread.start();
                         }
                     }
                 }
             }
     );
 
+    Handler h;
+    Thread readThread;
+    Thread saveThread;
+
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +83,38 @@ public class PatientListActivity extends AppCompatActivity {
         addProcedureBtn.setOnClickListener(this::addProcedureBtnClick);
 
         patientsDBService = new PatientsDBService(this);
-        patientsDBService.readPatients(patientArrayList);
+
+
+
         adapter = new ArrayAdapter<>(this, R.layout.adapter_layout, patientArrayList);
         listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        h = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                adapter.notifyDataSetChanged();
+            };
+        };
+
+        readThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                patientsDBService.readPatients(patientArrayList);
+                h.sendEmptyMessage(1);
+            }
+        });
+
+        saveThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                patientsDBService.savePatients(patientArrayList);
+                patientsDBService.readPatients(patientArrayList);
+                h.sendEmptyMessage(1);
+            }
+        });
+
+        readThread.start();
     }
 
     private void addProcedureBtnClick(View view) {
@@ -154,16 +189,13 @@ public class PatientListActivity extends AppCompatActivity {
                 patientArrayList.remove(patientArrayList.get(index));
             }
         }
-        patientsDBService.savePatients(patientArrayList);
-        patientsDBService.readPatients(patientArrayList);
-        adapter.notifyDataSetChanged();
-
+        saveThread.start();
     }
 
     @Override
     protected void onResume() {
-        patientsDBService.readPatients(patientArrayList);
-        adapter.notifyDataSetChanged();
+        if(!readThread.isAlive())
+            readThread.run();
         super.onResume();
     }
 }
